@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Audio Sampler - M1 INFO 2025-2026</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+  <div class="container">
+    <header>
+      <h1>🎵 Audio Sampler</h1>
+    </header>
+
+    <!-- Presets -->
+    <section class="controls-section">
+      <h2> Sélection de Preset</h2>
+      <div class="preset-controls">
+        <label for="preset-select">Preset:</label>
+        <select id="preset-select">
+          <option value="">-- Sélectionner un preset --</option>
+        </select>
+        <button id="load-preset-btn">Charger</button>
+      </div>
+
+      <div id="loading-container"></div>
+    </section>
+
+    <!-- Pads -->
+    <section class="sampler-section">
+      <h2> Pads 4X4</h2>
+      <div id="pad-grid"></div>
+    </section>
+
+    <!-- Waveform -->
+    <section class="visualization-section">
+      <h2> Forme d'onde</h2>
+      <div id="current-pad-name">Aucun pad sélectionné</div>
+      <canvas id="waveform-canvas" width="1200" height="200"></canvas>
+    </section>
+
+    <!-- Trim sliders -->
+    <section class="trim-section" id="trim-controls">
+      <div class="trim-header" style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+        <span> Trimming</span>
+        <span id="trim-details">0.00s - 0.00s</span>
+      </div>
+
+      <div class="slider-group">
+        <label>Début (Start)</label>
+        <input type="range" id="trim-start" min="0" max="1000" value="0" style="width: 100%; accent-color: #10b981;">
+      </div>
+
+      <div class="slider-group" style="margin-top: 10px;">
+        <label>Fin (End)</label>
+        <input type="range" id="trim-end" min="0" max="1000" value="1000" style="width: 100%; accent-color: #ef4444;">
+      </div>
+    </section>
+
+    <!-- Headless -->
+    <section class="headless-section" style="margin-top: 30px; border-top: 1px solid #333; padding-top: 20px;">
+      <h3> Mode Headless</h3>
+      <p style="font-size: 0.9em; color: #888;">Test du moteur audio sans GUI (AudioEngine seul)</p>
+
+      <button id="run-headless-test">Lancer Test Headless</button>
+
+      <div id="headless-log"
+        style="margin-top:12px; padding:10px; background:#0b0e13; border:1px solid #222; border-radius:6px; height:160px; overflow:auto; font-family:monospace; font-size:12px;">
+      </div>
+    </section>
+
+    <footer style="text-align: center; margin-top: 40px; padding: 20px; color: #999;">
+      <p>Projet M1 INFO 2025-2026 | Audio Sampler</p>
+      <p style="font-size: 0.8rem; margin-top: 10px;">
+        Binôme de travail : Ibrahima Camara & Mamadou Ougailou Diallo ✓
+      </p>
+      <p style="font-size: 0.8rem; margin-top: 10px;">
+        Professeur : M. Michel Buffa
+      </p>
+    </footer>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/audioEngine.js"></script>
+  <script src="js/trimbarsdrawer.js"></script>
+  <script src="js/gui.js"></script>
+  <script src="js/headlessTest.js"></script>
+
+  <script>
+    const BACKEND_URL = 'http://localhost:3000';
+
+    let audioEngine;
+    let samplerGUI;
+
+    function initSampler() {
+      audioEngine = new AudioEngine(BACKEND_URL);
+      samplerGUI = new SamplerGUI(audioEngine);
+      samplerGUI.init();
+      console.log(' Sampler initialisé avec GUI');
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      initSampler();
+
+      //  test headless indépendant
+      document.getElementById('run-headless-test').addEventListener('click', async () => {
+        await window.runHeadlessTest(BACKEND_URL);
+      });
+    });
+
+    // Bonus : au 1er clic, on resume le context de la GUI (souvent requis)
+    document.addEventListener('click', () => {
+      if (audioEngine && audioEngine.audioContext && audioEngine.audioContext.state === 'suspended') {
+        audioEngine.audioContext.resume();
+      }
+    }, { once: true });
+  </script>
+</body>
+
+</html>
