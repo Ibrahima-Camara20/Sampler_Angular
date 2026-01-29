@@ -1,0 +1,6 @@
+<div class="preset-list">
+  <app-preset-component 
+    *ngFor="let preset of presets$ | async" 
+    [preset]="preset">
+  </app-preset-component>
+</div>

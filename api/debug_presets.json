@@ -1,0 +1,446 @@
+[
+  {
+    "_id": "697b53190d4263eec4f37744",
+    "name": "808",
+    "type": "Drumkit",
+    "isFactoryPresets": true,
+    "samples": [
+      {
+        "name": "kick",
+        "url": "./808/Kick 808X.wav",
+        "_id": "697b53190d4263eec4f37745"
+      },
+      {
+        "name": "snare1",
+        "url": "./808/Snare 808 1.wav",
+        "_id": "697b53190d4263eec4f37746"
+      },
+      {
+        "name": "snare2",
+        "url": "./808/Snare 808X.wav",
+        "_id": "697b53190d4263eec4f37747"
+      },
+      {
+        "name": "tom1",
+        "url": "./808/HiTom 808.wav",
+        "_id": "697b53190d4263eec4f37748"
+      },
+      {
+        "name": "tom2",
+        "url": "./808/MidTom 808.wav",
+        "_id": "697b53190d4263eec4f37749"
+      },
+      {
+        "name": "tom3",
+        "url": "./808/LowTom 808.wav",
+        "_id": "697b53190d4263eec4f3774a"
+      },
+      {
+        "name": "closed hihats",
+        "url": "./808/ClosedHH 808.wav",
+        "_id": "697b53190d4263eec4f3774b"
+      },
+      {
+        "name": "open hihats1",
+        "url": "./808/OpenHH 808 1.wav",
+        "_id": "697b53190d4263eec4f3774c"
+      },
+      {
+        "name": "open hihats2",
+        "url": "./808/OpenHH 808 2.wav",
+        "_id": "697b53190d4263eec4f3774d"
+      },
+      {
+        "name": "clap1",
+        "url": "./808/Clap 808.wav",
+        "_id": "697b53190d4263eec4f3774e"
+      },
+      {
+        "name": "clap2",
+        "url": "./808/Clap 808X.wav",
+        "_id": "697b53190d4263eec4f3774f"
+      },
+      {
+        "name": "rimshot",
+        "url": "./808/Rimshot 808.wav",
+        "_id": "697b53190d4263eec4f37750"
+      },
+      {
+        "name": "cymbal",
+        "url": "./808/Cymbal 808X.wav",
+        "_id": "697b53190d4263eec4f37751"
+      },
+      {
+        "name": "clave",
+        "url": "./808/Clave 808.wav",
+        "_id": "697b53190d4263eec4f37752"
+      },
+      {
+        "name": "maracas",
+        "url": "./808/Maracas 808.wav",
+        "_id": "697b53190d4263eec4f37753"
+      },
+      {
+        "name": "cowbell",
+        "url": "./808/Cowbell 808.wav",
+        "_id": "697b53190d4263eec4f37754"
+      },
+      {
+        "name": "relaxing-guitar-loop-v5-245859.mp3",
+        "url": "/presets/808/relaxing-guitar-loop-v5-245859.mp3",
+        "storedName": "relaxing-guitar-loop-v5-245859.mp3",
+        "size": 585978,
+        "_id": "697b5629c94a4126707ebdbf"
+      },
+      {
+        "name": "relaxing-guitar-loop-v5-245859.mp3",
+        "url": "/presets/808/relaxing-guitar-loop-v5-245859.mp3",
+        "storedName": "relaxing-guitar-loop-v5-245859.mp3",
+        "size": 585978,
+        "_id": "697b566c7b580a82f8468688"
+      }
+    ],
+    "updatedAt": "2026-01-29T12:45:32.352Z",
+    "createdAt": "2026-01-29T12:31:21.333Z",
+    "__v": 2
+  },
+  {
+    "_id": "697b5336482bb5e970a53a54",
+    "id": "b9e79e7f-326b-42b1-b43a-8da78fa412b3",
+    "name": "Basic Kit",
+    "type": "Drumkit",
+    "isFactoryPresets": true,
+    "samples": [
+      {
+        "name": "kick",
+        "url": "./basic-kit/kick.wav",
+        "_id": "697b5336482bb5e970a53a55"
+      },
+      {
+        "name": "snare",
+        "url": "./basic-kit/snare.wav",
+        "_id": "697b5336482bb5e970a53a56"
+      },
+      {
+        "name": "hihat",
+        "url": "./basic-kit/hihat.wav",
+        "_id": "697b5336482bb5e970a53a57"
+      },
+      {
+        "name": "tom1",
+        "url": "./basic-kit/tom1.wav",
+        "_id": "697b5336482bb5e970a53a58"
+      },
+      {
+        "name": "tom2",
+        "url": "./basic-kit/tom2.wav",
+        "_id": "697b5336482bb5e970a53a59"
+      },
+      {
+        "name": "tom3",
+        "url": "./basic-kit/tom3.wav",
+        "_id": "697b5336482bb5e970a53a5a"
+      }
+    ],
+    "createdAt": "2026-01-29T12:31:50.907Z",
+    "updatedAt": "2026-01-29T12:31:50.907Z",
+    "__v": 0
+  },
+  {
+    "_id": "697b5336482bb5e970a53a5e",
+    "id": "6bbd2904-4e97-4cb6-9c2d-801ca611b451",
+    "name": "electronic",
+    "slug": "electronic",
+    "type": "Drumkit",
+    "isFactoryPresets": true,
+    "samples": [
+      {
+        "name": "kick",
+        "url": "./electronic/kick.wav",
+        "_id": "697b5336482bb5e970a53a5f"
+      },
+      {
+        "name": "snare",
+        "url": "./electronic/snare.wav",
+        "_id": "697b5336482bb5e970a53a60"
+      },
+      {
+        "name": "tom1",
+        "url": "./electronic/tom1.wav",
+        "_id": "697b5336482bb5e970a53a61"
+      },
+      {
+        "name": "tom2",
+        "url": "./electronic/tom2.wav",
+        "_id": "697b5336482bb5e970a53a62"
+      },
+      {
+        "name": "tom3",
+        "url": "./electronic/tom3.wav",
+        "_id": "697b5336482bb5e970a53a63"
+      },
+      {
+        "name": "tom4",
+        "url": "./electronic/tom4.wav",
+        "_id": "697b5336482bb5e970a53a64"
+      },
+      {
+        "name": "hihat1",
+        "url": "./electronic/hihat1.wav",
+        "_id": "697b5336482bb5e970a53a65"
+      },
+      {
+        "name": "hihat2",
+        "url": "./electronic/hihat2.wav",
+        "_id": "697b5336482bb5e970a53a66"
+      },
+      {
+        "name": "clap1",
+        "url": "./electronic/clap1.wav",
+        "_id": "697b5336482bb5e970a53a67"
+      },
+      {
+        "name": "clap2",
+        "url": "./electronic/clap2.wav",
+        "_id": "697b5336482bb5e970a53a68"
+      },
+      {
+        "name": "crash1",
+        "url": "./electronic/crash1.wav",
+        "_id": "697b5336482bb5e970a53a69"
+      },
+      {
+        "name": "crash2",
+        "url": "./electronic/crash2.wav",
+        "_id": "697b5336482bb5e970a53a6a"
+      },
+      {
+        "name": "ride1",
+        "url": "./electronic/ride1.wav",
+        "_id": "697b5336482bb5e970a53a6b"
+      },
+      {
+        "name": "ride2",
+        "url": "./electronic/ride2.wav",
+        "_id": "697b5336482bb5e970a53a6c"
+      },
+      {
+        "name": "perc1",
+        "url": "./electronic/perc1.wav",
+        "_id": "697b5336482bb5e970a53a6d"
+      },
+      {
+        "name": "perc2",
+        "url": "./electronic/perc2.wav",
+        "_id": "697b5336482bb5e970a53a6e"
+      }
+    ],
+    "updatedAt": "2026-01-29T12:31:50.977Z",
+    "createdAt": "2026-01-29T12:31:50.977Z",
+    "__v": 0
+  },
+  {
+    "_id": "697b5337482bb5e970a53a72",
+    "id": "c6cc3b81-bc06-447e-a6ea-0d87a0daeb2b",
+    "name": "Hip-Hop",
+    "type": "Drumkit",
+    "isFactoryPresets": true,
+    "samples": [
+      {
+        "name": "kick1",
+        "url": "./hip-hop/Kick HipHop 1.wav",
+        "_id": "697b5337482bb5e970a53a73"
+      },
+      {
+        "name": "kick2",
+        "url": "./hip-hop/Kick HipHop 2.wav",
+        "_id": "697b5337482bb5e970a53a74"
+      },
+      {
+        "name": "snare1",
+        "url": "./hip-hop/Snare HipHop 1.wav",
+        "_id": "697b5337482bb5e970a53a75"
+      },
+      {
+        "name": "snare2",
+        "url": "./hip-hop/Snare HipHop 2.wav",
+        "_id": "697b5337482bb5e970a53a76"
+      },
+      {
+        "name": "closed hihats1",
+        "url": "./hip-hop/ClosedHH HipHop 1.wav",
+        "_id": "697b5337482bb5e970a53a77"
+      },
+      {
+        "name": "closed hihats2",
+        "url": "./hip-hop/ClosedHH HipHop 2.wav",
+        "_id": "697b5337482bb5e970a53a78"
+      },
+      {
+        "name": "clap",
+        "url": "./hip-hop/Clap HipHop.wav",
+        "_id": "697b5337482bb5e970a53a79"
+      },
+      {
+        "name": "crash",
+        "url": "./hip-hop/Crash HipHop.wav",
+        "_id": "697b5337482bb5e970a53a7a"
+      },
+      {
+        "name": "reverse cymbal",
+        "url": "./hip-hop/RevCymbal HipHop.wav",
+        "_id": "697b5337482bb5e970a53a7b"
+      },
+      {
+        "name": "ride",
+        "url": "./hip-hop/Ride HipHop.wav",
+        "_id": "697b5337482bb5e970a53a7c"
+      },
+      {
+        "name": "triangle",
+        "url": "./hip-hop/Triangle HipHop.wav",
+        "_id": "697b5337482bb5e970a53a7d"
+      },
+      {
+        "name": "vibraslap",
+        "url": "./hip-hop/Vibraslap HipHop.wav",
+        "_id": "697b5337482bb5e970a53a7e"
+      },
+      {
+        "name": "wood",
+        "url": "./hip-hop/Wood HipHop.wav",
+        "_id": "697b5337482bb5e970a53a7f"
+      },
+      {
+        "name": "clave",
+        "url": "./hip-hop/Clave HipHop.wav",
+        "_id": "697b5337482bb5e970a53a80"
+      },
+      {
+        "name": "combo1",
+        "url": "./hip-hop/Combo HipHop 1.wav",
+        "_id": "697b5337482bb5e970a53a81"
+      },
+      {
+        "name": "combo2",
+        "url": "./hip-hop/Combo HipHop 2.wav",
+        "_id": "697b5337482bb5e970a53a82"
+      }
+    ],
+    "createdAt": "2026-01-29T12:31:51.039Z",
+    "updatedAt": "2026-01-29T12:31:51.039Z",
+    "__v": 0
+  },
+  {
+    "_id": "697b5337482bb5e970a53a86",
+    "id": "ec11037d-23bd-4475-a9d5-52f89b75a962",
+    "name": "Steveland Vinyl",
+    "type": "Drumkit",
+    "isFactoryPresets": true,
+    "samples": [
+      {
+        "name": "kick",
+        "url": "./steveland-vinyl/Kick Steveland 1.wav",
+        "_id": "697b5337482bb5e970a53a87"
+      },
+      {
+        "name": "snare1",
+        "url": "./steveland-vinyl/Snare Steveland 1.wav",
+        "_id": "697b5337482bb5e970a53a88"
+      },
+      {
+        "name": "snare2",
+        "url": "./steveland-vinyl/Snare Steveland 2.wav",
+        "_id": "697b5337482bb5e970a53a89"
+      },
+      {
+        "name": "closed hihats",
+        "url": "./steveland-vinyl/ClosedHH Steveland.wav",
+        "_id": "697b5337482bb5e970a53a8a"
+      },
+      {
+        "name": "open hihats",
+        "url": "./steveland-vinyl/OpenHH Steveland.wav",
+        "_id": "697b5337482bb5e970a53a8b"
+      },
+      {
+        "name": "tom1",
+        "url": "./steveland-vinyl/Tom Steveland 1.wav",
+        "_id": "697b5337482bb5e970a53a8c"
+      },
+      {
+        "name": "tom2",
+        "url": "./steveland-vinyl/Tom Steveland 2.wav",
+        "_id": "697b5337482bb5e970a53a8d"
+      },
+      {
+        "name": "tom3",
+        "url": "./steveland-vinyl/Tom Steveland 3.wav",
+        "_id": "697b5337482bb5e970a53a8e"
+      },
+      {
+        "name": "tom4",
+        "url": "./steveland-vinyl/Tom Steveland 4.wav",
+        "_id": "697b5337482bb5e970a53a8f"
+      },
+      {
+        "name": "conga",
+        "url": "./steveland-vinyl/Conga Steveland 1.wav",
+        "_id": "697b5337482bb5e970a53a90"
+      },
+      {
+        "name": "bass1",
+        "url": "./steveland-vinyl/Bass Steveland 1.wav",
+        "_id": "697b5337482bb5e970a53a91"
+      },
+      {
+        "name": "bass2",
+        "url": "./steveland-vinyl/Bass Steveland 2.wav",
+        "_id": "697b5337482bb5e970a53a92"
+      },
+      {
+        "name": "rhodes",
+        "url": "./steveland-vinyl/Rhodes Steveland 1.wav",
+        "_id": "697b5337482bb5e970a53a93"
+      },
+      {
+        "name": "scratch1",
+        "url": "./steveland-vinyl/Scratch Steveland 1.wav",
+        "_id": "697b5337482bb5e970a53a94"
+      },
+      {
+        "name": "scratch2",
+        "url": "./steveland-vinyl/Scratch Steveland 2.wav",
+        "_id": "697b5337482bb5e970a53a95"
+      },
+      {
+        "name": "scratch3",
+        "url": "./steveland-vinyl/Scratch Steveland 3.wav",
+        "_id": "697b5337482bb5e970a53a96"
+      }
+    ],
+    "createdAt": "2026-01-29T12:31:51.104Z",
+    "updatedAt": "2026-01-29T12:31:51.104Z",
+    "__v": 0
+  },
+  {
+    "_id": "697b5c0f08b17dfe42d3e53c",
+    "id": "39c6b445-dd10-4762-9f2b-2c7febeb0f34",
+    "name": "preset-folder",
+    "slug": "preset-folder",
+    "type": "Drumkit",
+    "isFactoryPresets": true,
+    "samples": [
+      {
+        "name": "relaxing-guitar-loop-v5-245859.mp3",
+        "url": "/presets/preset-folder/relaxing-guitar-loop-v5-245859.mp3",
+        "storedName": "relaxing-guitar-loop-v5-245859.mp3",
+        "size": 585978,
+        "_id": "697b5c0f08b17dfe42d3e53d"
+      }
+    ],
+    "createdAt": "2026-01-29T13:09:35.345Z",
+    "updatedAt": "2026-01-29T13:09:35.345Z",
+    "__v": 0
+  }
+]
