@@ -187,19 +187,16 @@ export const updatePreset = async (req, res, next) => {
              Object.assign(presetToUpdate, req.body);
              if (presetToUpdate.isModified('name')) {
                presetToUpdate.slug = slugify(presetToUpdate.name);
-               
-                // Rewrite sample URLs to match new folder name
-                if (presetToUpdate.samples && presetToUpdate.samples.length > 0) {
-                     presetToUpdate.samples.forEach(s => {
-                         if (s.url && s.url.includes('/')) {
-                             const parts = s.url.split('/');
-                             if (parts.length >= 2) {
-                                 parts[0] = presetToUpdate.name;
-                                 s.url = parts.join('/');
-                             }
-                         }
-                     });
-                }
+            
+               // Rewrite sample URLs: ./oldname/file.mp3 -> ./newname/file.mp3
+               if (presetToUpdate.samples && presetToUpdate.samples.length > 0) {
+                    presetToUpdate.samples.forEach(s => {
+                        if (s.url) {
+                            // Replace ./oldname/ with ./newname/
+                            s.url = s.url.replace(`./${oldName}/`, `./${presetToUpdate.name}/`);
+                        }
+                    });
+               }
              }
 
              try {

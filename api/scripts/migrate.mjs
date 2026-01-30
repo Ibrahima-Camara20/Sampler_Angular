@@ -1,24 +1,39 @@
-import mongoose from 'mongoose';
 import path from 'path';
 import crypto from 'crypto';
 import { fileURLToPath } from 'url';
-
-import { connectDB } from '../src/db.mjs'; // This loads .env and connects
-import { Preset } from '../src/models/preset.model.mjs';
-import { listPresetFiles, readJSON, safePresetPath } from '../src/utils.mjs'; // Helper functions
-import { DATA_DIR } from '../src/config.mjs';
+import dotenv from 'dotenv';
 
 const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// Load .env FIRST, before any other imports that use it
+dotenv.config({ path: path.resolve(__dirname, '../.env') });
+
+// Now import modules that depend on environment variables
+import mongoose from 'mongoose';
+import { Preset } from '../src/models/preset.model.mjs';
+import { listPresetFiles, readJSON, safePresetPath } from '../src/utils.mjs';
+import { DATA_DIR } from '../src/config.mjs';
 
 const migrate = async () => {
     try {
-        await connectDB();
-        console.log("Connected to MongoDB...");
-        console.log(`Reading presets from: ${DATA_DIR}`);
+        // Connect directly using the environment variable
+        const MONGO_URI = process.env.MONGO_URI;
+        
+        if (!MONGO_URI) {
+            console.error("❌ MONGO_URI not found in environment variables");
+            console.log("Make sure .env file exists at:", path.resolve(__dirname, '../.env'));
+            process.exit(1);
+        }
+
+        console.log("🔌 Connecting to MongoDB...");
+        await mongoose.connect(MONGO_URI);
+        console.log("✅ MongoDB Connected");
+        console.log(`📂 Reading presets from: ${DATA_DIR}`);
 
         // Read all JSON files
         const files = await listPresetFiles();
-        console.log(`Found ${files.length} local preset files.`);
+        console.log(`📁 Found ${files.length} local preset files.`);
 
         let count = 0;
         for (const file of files) {
@@ -28,7 +43,7 @@ const migrate = async () => {
             // Check if exists
             const existing = await Preset.findOne({ name: data.name });
             if (existing) {
-                console.log(`Skipping "${data.name}" (already exists in DB).`);
+                console.log(`⏭️  Skipping "${data.name}" (already exists in DB).`);
                 continue;
             }
             
@@ -40,20 +55,16 @@ const migrate = async () => {
             const doc = new Preset(data);
             await doc.save();
 
-            
-            // If the local file didn't have an ID, generate one or let logic handle it?
-            // Controller generated UUID. If local file has ID, we keep it.
-            // If local file is effectively "valid", it should be fine.
-            
-            await doc.save();
-            console.log(`Imported "${data.name}"`);
+            console.log(`✅ Imported "${data.name}"`);
             count++;
         }
 
-        console.log(`Migration complete. Imported ${count} presets.`);
+        console.log(`🎉 Migration complete. Imported ${count} presets.`);
+        await mongoose.connection.close();
         process.exit(0);
     } catch (err) {
-        console.error("Migration failed:", err);
+        console.error("❌ Migration failed:", err);
+        await mongoose.connection.close();
         process.exit(1);
     }
 };
