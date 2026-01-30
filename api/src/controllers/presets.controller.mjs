@@ -203,14 +203,15 @@ export const deletePreset = async (req, res, next) => {
   try {
     const deleted = await Preset.findOneAndDelete({ name: req.params.name });
     
-    // Ensure folder is deleted
-    const folderPath = path.join(DATA_DIR, req.params.name);
-    await fs.rm(folderPath, { recursive: true, force: true }).catch(() => {});
-    
     if (!deleted) {
-       // Just delete folder if DB entry managed only? 
-       // If not in DB, maybe just 204?
+      return res.status(404).json({ error: "Preset not found" });
     }
+    
+    // Delete folder after confirming DB deletion
+    const folderPath = path.join(DATA_DIR, req.params.name);
+    await fs.rm(folderPath, { recursive: true, force: true }).catch(err => {
+      console.error("Failed to delete preset folder:", err);
+    });
 
     res.json({ message: "Preset deleted", name: req.params.name });
   } catch (e) { next(e); }
@@ -240,23 +241,29 @@ export const seedPresets = async (req, res, next) => {
 export const deleteSample = async (req, res, next) => {
   try {
     const { name, filename } = req.params;
+    
+    // Verify preset exists in DB
+    const preset = await Preset.findOne({ name });
+    if (!preset) {
+      return res.status(404).json({ error: "Preset not found" });
+    }
+    
+    // Verify sample exists in preset
+    const sampleExists = preset.samples.some(s => s.url && s.url.endsWith(`/${filename}`));
+    if (!sampleExists) {
+      return res.status(404).json({ error: "Sample not found in preset" });
+    }
+    
     const folderPath = path.join(DATA_DIR, name);
-    
-    if (!(await fileExists(folderPath))) return res.status(404).json({ error: "Preset folder not found" });
 
-    // Consistency: Update DB first. If it succeeds, delete file.
-    // If FS delete fails, we have an orphan file (better than broken link).
-    
+    // Update DB first
     const updated = await Preset.findOneAndUpdate(
        { name: name },
        { $pull: { samples: { url: { $regex: `/${filename}$` } } } },
-       { new: true } // Return updated doc
+       { new: true }
     );
     
-    // Only delete file if DB update logic "worked" (meaning we proceeded)
-    // Though findOneAndUpdate won't tell us if it *found* the sample unless we check before/after or use matching.
-    // Assuming if we are here, we try to delete.
-    
+    // Then delete file
     const filePath = path.join(folderPath, filename);
     try {
         await fs.rm(filePath, { force: true });
@@ -300,16 +307,26 @@ export const updateSample = async (req, res, next) => {
 
     try {
         const preset = await Preset.findOne({ name });
-        if (preset && preset.samples) {
+        if (!preset) {
+            // Rollback file rename if preset not found
+            await fs.rename(newFilePath, oldFilePath).catch(e => console.error("Rollback failed", e));
+            return res.status(404).json({ error: "Preset not found in database" });
+        }
+        
+        if (preset.samples) {
             const s = preset.samples.find(sample => sample.url && sample.url.endsWith(`/${filename}`));
-            if (s) {
-                const parts = s.url.split('/');
-                parts[parts.length - 1] = newName;
-                s.url = parts.join('/');
-                if (s.storedName) s.storedName = newName;
-                
-                await preset.save();
+            if (!s) {
+                // Rollback if sample not in DB
+                await fs.rename(newFilePath, oldFilePath).catch(e => console.error("Rollback failed", e));
+                return res.status(404).json({ error: "Sample not found in preset" });
             }
+            
+            const parts = s.url.split('/');
+            parts[parts.length - 1] = newName;
+            s.url = parts.join('/');
+            if (s.storedName) s.storedName = newName;
+            
+            await preset.save();
         }
     } catch (dbErr) {
         console.error("DB Update failed for sample rename, reverting file...", dbErr);

@@ -56,6 +56,7 @@ export const validatePreset = (p, { partial = false } = {}) => {
   if (!partial || p.samples !== undefined) {
     if (!Array.isArray(p?.samples)) errs.push("samples must be an array");
     else {
+      if (p.samples.length > 16) errs.push("Preset cannot have more than 16 samples");
       p.samples.forEach((s, i) => {
         if (s === null) return;
         if (typeof s !== "object") errs.push(`samples[${i}] must be an object or null`);
