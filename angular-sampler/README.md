@@ -1,59 +1,71 @@
-# AngularSampler
+# 🎵 Audio Sampler - Admin Dashboard
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.1.1.
+Modern audio sample management application with Angular 18. Features neon green/pink theming and real-time CRUD operations.
 
-## Development server
+## ✨ Features
 
-To start a local development server, run:
+- **Preset Management**: Create, rename, delete, and search audio presets
+- **Sample Management**: Upload, play, rename, and delete audio samples
+- **Real-time Updates**: Auto-refresh UI after all operations
+- **Modern UI**: Dark theme with neon accents, Material Design dialogs, responsive layout
+
+## 🛠️ Tech Stack
+
+**Frontend**: Angular 18, TypeScript, TailwindCSS, Angular Material  
+**Backend**: Node.js, Express, MongoDB Atlas (deployed on Render)  
+**API URL**: https://web-audio-api.onrender.com/api
+
+## 🚀 Quick Start
+
+### Prerequisites
+
+- Node.js v18+
+- Angular CLI v18+
+
+### Installation
 
 ```bash
+# Install frontend dependencies
+cd angular-sampler
+npm install
+```
+
+### Run Application
+
+```bash
+# Start development server
 ng serve
+
+# App runs at http://localhost:4200
+# Connects to API at https://web-audio-api.onrender.com/api
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+### Build for Production
 
 ```bash
-ng generate component component-name
+ng build --configuration production
+# Output: dist/angular-sampler/browser/
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+## 📁 Project Structure
 
-```bash
-ng generate --help
+```
+angular-sampler/src/app/
+├── components/             # Navbar, SampleCard
+├── dialogs/                # Create, Upload, Rename modals
+├── pages/                  # AdminPage
+├── preset-component/       # Preset display
+├── preset-list-component/  # Preset list with search
+└── preset-service.ts       # API service
 ```
 
-## Building
+## 🔌 API Endpoints
 
-To build the project run:
+- `GET/POST /api/presets` - List/Create presets
+- `PATCH/DELETE /api/presets/:id` - Update/Delete preset
+- `POST /api/presets/upload` - Upload sample
+- `PATCH/DELETE /api/presets/:id/samples/:sampleId` - Update/Delete sample
 
-```bash
-ng build
-```
+---
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+**Author**: Mamadou Ougailou Diallo | M1 Info Web Technologies 2025/2026

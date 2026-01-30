@@ -1,0 +1,104 @@
+<div class="bg-gradient-to-br from-slate-800 to-slate-900 p-8 border-2 border-green-500/30 shadow-[0_0_40px_rgba(0,255,136,0.2)] relative flex items-center justify-center min-h-full">
+  <!-- Close button -->
+  <button 
+    (click)="onCancel()"
+    class="absolute top-4 right-4 p-2 text-slate-400 hover:text-white hover:bg-slate-700/50 rounded-lg transition-all duration-200 z-10">
+    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+    </svg>
+  </button>
+  
+  <!-- Centered content wrapper -->
+  <div class="w-full max-w-2xl">
+    <div class="flex items-center space-x-3 mb-8">
+      <div class="bg-gradient-to-br from-green-500 to-emerald-600 p-3 rounded-xl">
+        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+        </svg>
+      </div>
+      <h2 class="text-2xl font-bold text-white tracking-wide">Upload Sample</h2>
+    </div>
+    
+    <form [formGroup]="uploadForm" class="space-y-6">
+      <div>
+        <label class="block text-sm font-semibold text-green-300 mb-3">Select Preset</label>
+        <select
+          formControlName="presetName"
+          class="block w-full px-4 py-3 bg-slate-900/50 border-2 border-green-500/50 rounded-xl focus:ring-2 focus:ring-green-400 focus:border-green-400 text-white transition-all duration-200 backdrop-blur-sm cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+          [class.border-pink-500]="uploadForm.get('presetName')?.invalid && uploadForm.get('presetName')?.touched">
+          <option [ngValue]="null" disabled selected class="bg-slate-800">
+            {{ presetsLoading ? 'Loading presets...' : 'Choose a preset...' }}
+          </option>
+          <option *ngFor="let preset of presets" [value]="preset.name" class="bg-slate-800">
+            {{ preset.name }}
+          </option>
+        </select>
+        <p *ngIf="uploadForm.get('presetName')?.hasError('required') && uploadForm.get('presetName')?.touched" class="mt-2 text-sm text-pink-400 flex items-center space-x-1">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
+          <span>Please select a preset</span>
+        </p>
+      </div>
+
+      <div>
+        <label class="block text-sm font-semibold text-green-300 mb-3">Audio File</label>
+        <div class="relative">
+          <input
+            type="file"
+            #fileInput
+            accept="audio/*"
+            (change)="onFileSelected($event)"
+            class="hidden"
+          />
+          <button
+            type="button"
+            (click)="fileInput.click()"
+            class="w-full px-6 py-4 bg-slate-900/50 border-2 border-dashed rounded-xl transition-all duration-200 backdrop-blur-sm group hover:border-green-400 hover:bg-slate-800/50"
+            [class.border-green-500/50]="!selectedFile"
+            [class.border-green-400]="selectedFile">
+            <div class="flex flex-col items-center space-y-2">
+              <svg class="w-10 h-10 text-green-400 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"></path>
+              </svg>
+              <div *ngIf="!selectedFile" class="text-slate-400 text-sm">
+                <span class="font-semibold text-green-300">Click to browse</span> or drag audio file
+              </div>
+              <div *ngIf="selectedFile" class="text-center">
+                <p class="text-green-300 font-semibold truncate max-w-xs">{{ selectedFile.name }}</p>
+                <p class="text-slate-500 text-xs mt-1">Click to change file</p>
+              </div>
+            </div>
+          </button>
+        </div>
+      </div>
+    </form>
+
+    <div class="flex items-center justify-end gap-6  mt-12 pt-6 border-t-2 border-slate-700/50">
+      <button
+        (click)="onCancel()"
+        [disabled]="uploading"
+        class="px-6 py-3  text-sm font-bold text-slate-300 bg-slate-700/50 border border-slate-600/50 rounded-xl hover:bg-slate-600/50 hover:text-white disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200">
+        CANCEL
+      </button>
+      <button
+        (click)="onUpload()"
+        [disabled]="!uploadForm.valid || uploading"
+        class="px-6 py-3 text-sm font-bold text-white bg-gradient-to-r from-green-500 to-emerald-600 rounded-xl hover:from-green-400 hover:to-emerald-500 disabled:from-slate-600 disabled:to-slate-700 disabled:cursor-not-allowed disabled:text-slate-400 transition-all duration-200 shadow-lg hover:shadow-[0_0_20px_rgba(0,255,136,0.4)]">
+        <span *ngIf="!uploading" class="flex items-center space-x-2">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+          </svg>
+          <span>UPLOAD</span>
+        </span>
+        <span *ngIf="uploading" class="flex items-center space-x-2">
+          <svg class="animate-spin h-5 w-5" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+          </svg>
+          <span>UPLOADING...</span>
+        </span>
+      </button>
+    </div>
+  </div>
+</div>

@@ -1,6 +1,21 @@
-<div class="preset-list">
-  <app-preset-component 
-    *ngFor="let preset of presets$ | async" 
-    [preset]="preset">
-  </app-preset-component>
+<div class="py-8">
+  <mat-progress-bar *ngIf="loading" mode="indeterminate" class="mb-6"></mat-progress-bar>
+
+  <div class="grid grid-cols-1 gap-8">
+    <app-preset-component 
+      *ngFor="let preset of presets$ | async" 
+      [preset]="preset"
+      (presetUpdated)="onPresetUpdated()">
+    </app-preset-component>
+  </div>
+
+  <div *ngIf="(presets$ | async)?.length === 0 && !loading" class="flex flex-col items-center justify-center py-20">
+    <div class="bg-slate-800 rounded-2xl shadow-lg p-12 text-center max-w-md border-2 border-green-500/20">
+      <svg class="w-24 h-24 mx-auto mb-6 text-green-400/40" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+      </svg>
+      <h3 class="text-xl font-semibold text-white mb-2">No presets found</h3>
+      <p class="text-slate-400">Try adjusting your search or filter criteria</p>
+    </div>
+  </div>
 </div>

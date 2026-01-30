@@ -1,0 +1,101 @@
+@import '@angular/material/prebuilt-themes/azure-blue.css';
+@import 'tailwindcss';
+
+/* CSS Variables for Color Scheme */
+:root {
+  --primary-color: #00ff88;
+  --secondary-color: #ff0080;
+  --bg-dark: #0a0a0a;
+  --bg-card: #1a1a1a;
+  --bg-pad: #2a2a2a;
+  --text-primary: #ffffff;
+  --text-secondary: #888888;
+  --border-color: #333333;
+  --shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+}
+
+/* Futuristic Admin Dashboard Theme */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, var(--bg-dark) 0%, #1a1a2e 100%);
+  color: var(--text-primary);
+  line-height: 1.6;
+}
+
+/* Smooth transitions */
+button, a, .card {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-dark);
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, var(--primary-color) 0%, #00cc6f 100%);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #00ff99 0%, var(--primary-color) 100%);
+}
+
+/* Focus styles */
+button:focus, input:focus, select:focus {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 2px;
+}
+
+/* Glow effects */
+.glow {
+  box-shadow: 0 0 20px rgba(0, 255, 136, 0.3);
+}
+
+.glow-strong {
+  box-shadow: 0 0 30px rgba(0, 255, 136, 0.5);
+}
+
+/* Dialog centering and styling */
+::ng-deep .futuristic-dialog .mat-mdc-dialog-container {
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+::ng-deep .futuristic-dialog {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Dialog backdrop with harmonious color */
+::ng-deep .cdk-overlay-dark-backdrop {
+  background: rgba(10, 10, 10, 0.85) !important;
+  backdrop-filter: blur(8px);
+}
+
+::ng-deep .mat-mdc-dialog-container .mdc-dialog__surface {
+  background: transparent !important;
+}
+
+/* Custom Snackbar colors */
+.success-snackbar {
+  --mdc-snackbar-container-color: var(--primary-color) !important;
+  --mat-snack-bar-button-color: #ccffee !important;
+}
+
+.error-snackbar {
+  --mdc-snackbar-container-color: var(--secondary-color) !important;
+  --mat-snack-bar-button-color: #ffcce6 !important;
+}
