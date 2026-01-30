@@ -101,6 +101,22 @@ export const replacePreset = async (req, res, next) => {
         // 2. Prepare DB update
         presetToUpdate.name = newData.name;
         presetToUpdate.slug = slugify(newData.name);
+        
+        // Rewrite sample URLs to match new folder name
+        if (presetToUpdate.samples && presetToUpdate.samples.length > 0) {
+             presetToUpdate.samples.forEach(s => {
+                 if (s.url && s.url.includes('/')) {
+                     const parts = s.url.split('/');
+                     // Assuming url format is "Folder/Filename"
+                     // We replace the first part with the new name
+                     if (parts.length >= 2) {
+                         parts[0] = newData.name;
+                         s.url = parts.join('/');
+                     }
+                 }
+             });
+        }
+        
         presetToUpdate.type = newData.type;
         presetToUpdate.isFactoryPresets = newData.isFactoryPresets;
         presetToUpdate.samples = newData.samples;
@@ -171,6 +187,19 @@ export const updatePreset = async (req, res, next) => {
              Object.assign(presetToUpdate, req.body);
              if (presetToUpdate.isModified('name')) {
                presetToUpdate.slug = slugify(presetToUpdate.name);
+               
+                // Rewrite sample URLs to match new folder name
+                if (presetToUpdate.samples && presetToUpdate.samples.length > 0) {
+                     presetToUpdate.samples.forEach(s => {
+                         if (s.url && s.url.includes('/')) {
+                             const parts = s.url.split('/');
+                             if (parts.length >= 2) {
+                                 parts[0] = presetToUpdate.name;
+                                 s.url = parts.join('/');
+                             }
+                         }
+                     });
+                }
              }
 
              try {
