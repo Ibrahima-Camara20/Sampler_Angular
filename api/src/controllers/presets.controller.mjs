@@ -3,7 +3,7 @@ import path from "path";
 import crypto from "crypto";
 import { DATA_DIR } from "../config.mjs";
 import {
-  slugify, fileExists, validatePreset
+  slugify, fileExists, validatePreset, renameFolderSafe
 } from "../utils.mjs";
 import { Preset } from "../models/preset.model.mjs";
 
@@ -91,8 +91,8 @@ export const replacePreset = async (req, res, next) => {
       
       if (await fileExists(oldFolderPath)) {
         try {
-          // 1. Attempt FS Rename first
-          await fs.rename(oldFolderPath, newFolderPath);
+          // 1. Attempt FS Rename (Robust)
+          await renameFolderSafe(oldFolderPath, newFolderPath);
         } catch (err) {
            console.error("Error renaming folder:", err);
            return res.status(500).json({ error: "Failed to rename preset folder on disk." });
@@ -110,7 +110,7 @@ export const replacePreset = async (req, res, next) => {
         } catch (dbErr) {
             // 3. Rollback FS if DB save fails
             console.error("DB Save failed, rolling back folder rename...", dbErr);
-            await fs.rename(newFolderPath, oldFolderPath).catch(e => console.error("CRITICAL: Rollback failed", e));
+            await renameFolderSafe(newFolderPath, oldFolderPath).catch(e => console.error("CRITICAL: Rollback failed", e));
             return next(dbErr);
         }
       } else {
@@ -161,7 +161,7 @@ export const updatePreset = async (req, res, next) => {
          if (await fileExists(oldFolderPath)) {
              try {
                 // 1. FS Rename
-                await fs.rename(oldFolderPath, newFolderPath);
+                await renameFolderSafe(oldFolderPath, newFolderPath);
              } catch (e) {
                 console.error("RenameFolderErr", e);
                 return res.status(500).json({ error: "Failed to rename folder" });
@@ -299,7 +299,7 @@ export const updateSample = async (req, res, next) => {
     // Consistency Strategy: FS Rename First -> DB Update -> Revert FS on failure
     
     try {
-        await fs.rename(oldFilePath, newFilePath);
+        await renameFolderSafe(oldFilePath, newFilePath);
     } catch (e) {
         console.error("Error renaming sample file:", e);
         return res.status(500).json({ error: "Failed to rename sample file." });
@@ -325,13 +325,16 @@ export const updateSample = async (req, res, next) => {
             parts[parts.length - 1] = newName;
             s.url = parts.join('/');
             if (s.storedName) s.storedName = newName;
+            // Update the display name as well, as requested
+            s.name = newBaseName;
             
             await preset.save();
         }
     } catch (dbErr) {
         console.error("DB Update failed for sample rename, reverting file...", dbErr);
+        console.error("DB Update failed for sample rename, reverting file...", dbErr);
         // Rollback FS
-        await fs.rename(newFilePath, oldFilePath).catch(e => console.error("CRITICAL: Sample rename rollback failed", e));
+        await renameFolderSafe(newFilePath, oldFilePath).catch(e => console.error("CRITICAL: Sample rename rollback failed", e));
         return next(dbErr);
     }
 

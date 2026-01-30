@@ -2,6 +2,22 @@ import fs from "fs/promises";
 import path from "path";
 import { DATA_DIR } from "./config.mjs";
 
+// Helper to rename folder robustly (handling EXDEV cross-device errors)
+export const renameFolderSafe = async (oldPath, newPath) => {
+  try {
+    await fs.rename(oldPath, newPath);
+  } catch (err) {
+    if (err.code === 'EXDEV') {
+        // Cross-device link not permitted, use copy + remove
+        console.warn(`Rename failed with EXDEV, attempting copy-delete: ${oldPath} -> ${newPath}`);
+        await fs.cp(oldPath, newPath, { recursive: true });
+        await fs.rm(oldPath, { recursive: true, force: true });
+    } else {
+        throw err;
+    }
+  }
+};
+
 // ------- Helpers -------
 // normalize, slugify, safePresetPath, fileExists, readJSON, writeJSON, listPresetFiles, validatePreset
 
