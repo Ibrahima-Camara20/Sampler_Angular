@@ -4,7 +4,7 @@
  */
 
 class AudioEngine {
-  constructor(backendUrl = 'http://localhost:3000') {
+  constructor(backendUrl = 'https://web-audio-api.onrender.com') {
     this.backendUrl = backendUrl;
     this.audioContext = null;
     this.presets = [];
@@ -129,8 +129,13 @@ class AudioEngine {
         } else {
           let fullUrl;
           if (sound.url.startsWith('http')) {
+            // URL absolue HTTP/HTTPS
             fullUrl = sound.url;
+          } else if (sound.url.startsWith('/')) {
+            // URL absolue du serveur (commence par /)
+            fullUrl = `${this.backendUrl}${sound.url}`;
           } else {
+            // URL relative (commence par ./ ou juste le nom)
             const cleanUrl = sound.url.replace(/^\.\//, '');
             fullUrl = `${this.backendUrl}/presets/${cleanUrl}`;
           }
@@ -178,9 +183,11 @@ class AudioEngine {
   }
 
   /**
-   * Joue le son d'un pad (avec trim)
+   * Joue le son d'un pad (avec trim et vélocité optionnelle)
+   * @param {number} padIndex - Index du pad (0-15)
+   * @param {number} velocity - Vélocité MIDI optionnelle (0-127), converti en gain (0-1)
    */
-  playPad(padIndex) {
+  playPad(padIndex, velocity = 127) {
     this.init();
 
     if (!this.pads[padIndex] || !this.pads[padIndex].buffer) {
@@ -199,7 +206,13 @@ class AudioEngine {
     const endTime = trim.end * duration;
     const playDuration = Math.max(0, endTime - startTime);
 
-    source.connect(this.audioContext.destination);
+    // Support de vélocité : crée un gain node pour contrôler le volume
+    const gainNode = this.audioContext.createGain();
+    const normalizedVelocity = Math.max(0, Math.min(127, velocity)) / 127;
+    gainNode.gain.value = normalizedVelocity;
+
+    source.connect(gainNode);
+    gainNode.connect(this.audioContext.destination);
 
     try {
       source.start(0, startTime, playDuration);

@@ -13,6 +13,10 @@ class SamplerGUI {
     this.trimBarsDrawer = null;
     this.interactionSetupDone = false;
 
+    // MIDI (initialisé plus tard)
+    this.midiController = null;
+    this.midiUI = null;
+
     // Mapping clavier → pads (layout 4x4 AZERTY)
     this.keyMap = {
       '1': 12, '2': 13, '3': 14, '4': 15,
@@ -32,6 +36,7 @@ class SamplerGUI {
     this.loadPresetList();
     this.setupEventListeners();
     this.setupKeyboardControls();
+    this.initMIDI(); // Initialise MIDI (optionnel, ne bloque pas si non supporté)
   }
 
   initializeElements() {
@@ -101,6 +106,7 @@ class SamplerGUI {
     const pad = document.createElement('div');
     pad.className = 'pad';
     pad.dataset.index = index;
+    pad.dataset.padIndex = index; // Pour MIDI UI highlighting
 
     const padNumber = document.createElement('div');
     padNumber.className = 'pad-number';
@@ -459,6 +465,61 @@ class SamplerGUI {
       const key = e.key.toLowerCase();
       this.keysPressed.delete(key);
     });
+  }
+
+  /**
+   * Initialise le contrôleur MIDI (si disponible)
+   */
+  async initMIDI() {
+    // Vérifie si les modules MIDI sont chargés
+    if (typeof MIDIController === 'undefined' || typeof MIDIUI === 'undefined') {
+      console.log('🎹 Modules MIDI non chargés, fonctionnalité MIDI désactivée');
+      return;
+    }
+
+    // Crée le contrôleur MIDI
+    this.midiController = new MIDIController({
+      onNoteOn: (padIndex, velocity) => {
+        // Joue le pad avec la vélocité MIDI
+        if (this.engine.hasPad(padIndex)) {
+          const playback = this.engine.playPad(padIndex, velocity);
+
+          if (playback) {
+            // Affiche la forme d'onde (comme handlePadClick)
+            this.highlightPad(padIndex);
+            this.displayWaveform(playback.buffer, padIndex);
+
+            // Mise à jour de l'index du pad courant
+            this.currentPadIndex = padIndex;
+          }
+
+          // Animation visuelle spéciale pour MIDI
+          const padElement = document.querySelector(`[data-index="${padIndex}"]`);
+          if (padElement) {
+            padElement.classList.add('midi-triggered');
+            setTimeout(() => padElement.classList.remove('midi-triggered'), 200);
+          }
+        }
+      },
+      onNoteOff: (padIndex) => {
+        // On peut implémenter un comportement spécial au relâchement si nécessaire
+        // Pour l'instant, rien (les sons jouent en one-shot)
+      }
+    });
+
+    // Initialise l'accès MIDI
+    const success = await this.midiController.init();
+
+    if (success) {
+      // Crée l'interface MIDI
+      const midiContainer = document.getElementById('midi-container');
+      if (midiContainer) {
+        this.midiUI = new MIDIUI(this.midiController, midiContainer);
+        console.log('🎹 MIDI initialisé avec succès');
+      }
+    } else {
+      console.log('🎹 MIDI non disponible ou non supporté');
+    }
   }
 }
 

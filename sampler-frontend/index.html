@@ -59,6 +59,11 @@
       </div>
     </section>
 
+    <!-- MIDI Controls -->
+    <section class="midi-section" id="midi-section">
+      <div id="midi-container"></div>
+    </section>
+
     <!-- Headless -->
     <section class="headless-section" style="margin-top: 30px; border-top: 1px solid #333; padding-top: 20px;">
       <h3> Mode Headless</h3>
@@ -85,11 +90,13 @@
   <!-- Scripts -->
   <script src="js/audioEngine.js"></script>
   <script src="js/trimbarsdrawer.js"></script>
+  <script src="js/midiController.js"></script>
+  <script src="js/midiUI.js"></script>
   <script src="js/gui.js"></script>
   <script src="js/headlessTest.js"></script>
 
   <script>
-    const BACKEND_URL = 'http://localhost:3000';
+    const BACKEND_URL = 'https://web-audio-api.onrender.com';
 
     let audioEngine;
     let samplerGUI;
